@@ -24,14 +24,12 @@ function App() {
       <CssBaseline />
       <div className="App">
         <header className="App-header"></header>
-        <body>
-          <Container maxWidth="lg">
-            <Typography component="h1" variant="h2">
-              Webcrypto
-            </Typography>
-            <KeyManager />
-          </Container>
-        </body>
+        <Container maxWidth="md">
+          <Typography component="h1" variant="h2">
+            Webcrypto
+          </Typography>
+          <KeyManager />
+        </Container>
       </div>
     </ThemeProvider>
   );
