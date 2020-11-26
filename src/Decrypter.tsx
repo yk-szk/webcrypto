@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Box, TextField, Button } from '@material-ui/core';
 import { toClipboard } from './Utils';
@@ -9,7 +9,12 @@ interface Props {
 
 export function Decrypter(props: Props) {
   const [inputText, setInputText] = useState('');
+  const [decryptHelperText, setDecryptHelperText] = useState('');
   const [decryptedText, setDecryptedText] = useState('');
+  const [decError, setDecError] = useState(false);
+  useEffect(() => {
+    setDecryptHelperText(decError ? 'Invalid input or key' : '');
+  }, [decError]);
   function handleInputChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
@@ -18,6 +23,7 @@ export function Decrypter(props: Props) {
     const keyPair = props.keyPair;
     if (text === '') {
       setDecryptedText('');
+      setDecError(false);
       return;
     }
     if (keyPair !== null) {
@@ -28,10 +34,12 @@ export function Decrypter(props: Props) {
             new Uint8Array(decrypted),
           );
           setDecryptedText(result);
+          setDecError(false);
         })
         .catch((reason) => {
-          console.log(reason);
+          console.log(reason.name);
           setDecryptedText('');
+          setDecError(true);
         });
     }
   }
@@ -52,6 +60,8 @@ export function Decrypter(props: Props) {
           variant="outlined"
           fullWidth={true}
           placeholder="Encrypted Text"
+          error={decError}
+          helperText={decryptHelperText}
         >
           {inputText}
         </TextField>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Box, TextField, Button } from '@material-ui/core';
 import { importPublicKey, ab2str } from './KeyManager';
@@ -7,26 +7,26 @@ import { toClipboard } from './Utils';
 export function Encrypter() {
   const [pubKeyStr, setPubKeyStr] = useState('');
   const [pubKeyHelperText, setPubKeyHelperText] = useState('');
-  const [validPubKey, setValidPubKey] = useState(true);
+  const [pubError, setPubError] = useState(false);
   const [inputText, setInputText] = useState('');
   const [encryptedText, setEncryptedText] = useState('');
+  useEffect(() => {
+    setPubKeyHelperText(pubError ? 'Invalid public key' : '');
+  }, [pubError]);
   function handlePubKeyChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
     const keyStr = event?.target.value;
     setPubKeyStr(keyStr);
     if (keyStr === '') {
-      setValidPubKey(true);
-      setPubKeyHelperText('');
+      setPubError(false);
     } else {
       importPublicKey(keyStr)
         .then((key) => {
-          setValidPubKey(true);
-          setPubKeyHelperText('Valid public key');
+          setPubError(false);
         })
         .catch((reason) => {
-          setValidPubKey(false);
-          setPubKeyHelperText('Invalid public key');
+          setPubError(true);
         });
     }
   }
@@ -39,7 +39,7 @@ export function Encrypter() {
       setEncryptedText('');
       return;
     }
-    if (pubKeyStr !== '' && validPubKey) {
+    if (pubKeyStr !== '' && !pubError) {
       importPublicKey(pubKeyStr).then((key) => {
         const enc = new TextEncoder();
         const encoded = enc.encode(text);
@@ -65,10 +65,10 @@ export function Encrypter() {
       <Typography>Encrypt</Typography>
       <Box>
         <TextField
-          error={!validPubKey}
+          error={pubError}
           spellCheck={false}
           multiline={true}
-          rows={3}
+          rows={4}
           onChange={handlePubKeyChange}
           variant="outlined"
           fullWidth={true}
@@ -86,7 +86,7 @@ export function Encrypter() {
           variant="outlined"
           onChange={handleInputChange}
           fullWidth={true}
-          placeholder="Text for encryption"
+          placeholder="Text to encrypt"
         >
           {inputText}
         </TextField>
