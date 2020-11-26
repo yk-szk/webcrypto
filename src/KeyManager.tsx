@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Box, Button } from '@material-ui/core';
 import { download, toClipboard } from './Utils';
@@ -175,6 +175,7 @@ export function KeyManager(props: Props) {
       exportPublicKey(keyPair.publicKey),
     ]).then((keyStrings) => {
       const [privKey, publicKey] = keyStrings;
+      localStorage.setItem('keyPair', publicKey + '\n' + privKey);
       Promise.all([
         createFingerprint(privKey),
         createFingerprint(publicKey),
@@ -185,7 +186,6 @@ export function KeyManager(props: Props) {
         setPrivateFingerprint(priv);
         setPublicFingerprint(pub);
       });
-      localStorage.setItem('keyPair', publicKey + '\n' + privKey);
       setSaveEnabled(true);
       props.onKeyPairChange(keyPair);
     });
@@ -220,15 +220,20 @@ export function KeyManager(props: Props) {
       });
   }
 
-  useEffect(() => {
+  (() => {
     const localKeyPair = localStorage.getItem('keyPair');
-    if (localKeyPair !== null) {
+    if (
+      localKeyPair !== null &&
+      privateFingerprint === '' &&
+      publicFingerprint === ''
+    ) {
       console.log('Load key pair from localStorage');
       parseKeyPair(localKeyPair).then((keyPair) => {
         setKeyPair(keyPair);
       });
     }
-  }, []);
+  })();
+
   return (
     <React.Fragment>
       <Typography>Your keys</Typography>
