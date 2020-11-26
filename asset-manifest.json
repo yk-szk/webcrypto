@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/webcrypto/static/css/main.9b767f00.chunk.css",
+    "main.js": "/webcrypto/static/js/main.1c70ceb8.chunk.js",
+    "main.js.map": "/webcrypto/static/js/main.1c70ceb8.chunk.js.map",
+    "runtime-main.js": "/webcrypto/static/js/runtime-main.4dac8ea1.js",
+    "runtime-main.js.map": "/webcrypto/static/js/runtime-main.4dac8ea1.js.map",
+    "static/js/2.1295294f.chunk.js": "/webcrypto/static/js/2.1295294f.chunk.js",
+    "static/js/2.1295294f.chunk.js.map": "/webcrypto/static/js/2.1295294f.chunk.js.map",
+    "index.html": "/webcrypto/index.html",
+    "static/css/main.9b767f00.chunk.css.map": "/webcrypto/static/css/main.9b767f00.chunk.css.map",
+    "static/js/2.1295294f.chunk.js.LICENSE.txt": "/webcrypto/static/js/2.1295294f.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4dac8ea1.js",
+    "static/js/2.1295294f.chunk.js",
+    "static/css/main.9b767f00.chunk.css",
+    "static/js/main.1c70ceb8.chunk.js"
+  ]
+}
