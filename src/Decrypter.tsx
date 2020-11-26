@@ -37,7 +37,9 @@ export function Decrypter(props: Props) {
   }
   return (
     <Box className="vspacing">
-      <Typography title={props.keyPair !== null ? 'Ready' : 'Key is not set'}>
+      <Typography
+        title={props.keyPair !== null ? 'Ready to decrypt' : 'Key is not set'}
+      >
         Decrypt
         {props.keyPair !== null ? ' 🟢' : ' 🟠'}
       </Typography>

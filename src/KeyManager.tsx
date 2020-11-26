@@ -223,12 +223,17 @@ export function KeyManager(props: Props) {
   }, []);
   return (
     <React.Fragment>
+      <Typography>Your keys</Typography>
       <Box display="flex" justifyContent="space-between">
         <Box width="30%">
-          <Typography component="h3" variant="h6">
-            Public Key
+          <Typography>Public</Typography>
+          <Typography
+            className="ellipsis"
+            onClick={(event: any) => event.target.classList.toggle('ellipsis')}
+            title="Key finterprint. Click to open/close"
+          >
+            {publicFingerprint}
           </Typography>
-          <Typography title="Key finterprint">{publicFingerprint}</Typography>
           <Box display="flex" justifyContent="flex-end">
             <Button
               title="Copy private key"
@@ -241,10 +246,14 @@ export function KeyManager(props: Props) {
           </Box>
         </Box>
         <Box width="30%">
-          <Typography component="h3" variant="h6">
-            Private Key
+          <Typography>Private</Typography>
+          <Typography
+            className="ellipsis"
+            onClick={(event: any) => event.target.classList.toggle('ellipsis')}
+            title="Key finterprint. Click to open/close"
+          >
+            {privateFingerprint}
           </Typography>
-          <Typography title="Key finterprint">{privateFingerprint}</Typography>
         </Box>
         <Box
           width="30%"
@@ -256,7 +265,7 @@ export function KeyManager(props: Props) {
             Generate Key Pair
           </Button>
           <Button onClick={importKeyPair} variant="outlined">
-            Import Key Pair
+            Load Key Pair
           </Button>
           <Button
             disabled={!saveEnabled}
