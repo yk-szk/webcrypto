@@ -25,7 +25,7 @@ function str2ab(str: string) {
 Convert  an ArrayBuffer into a string
 from https://developers.google.com/web/updates/2012/06/How-to-convert-ArrayBuffer-to-and-from-String
 */
-function ab2str(buf: ArrayBuffer) {
+export function ab2str(buf: ArrayBuffer) {
   let a = new Uint8Array(buf);
   return String.fromCharCode.apply(null, a as any);
 }
@@ -59,7 +59,7 @@ function importPrivateKey(pem: string) {
   );
 }
 
-function importPublicKey(pem: string) {
+export function importPublicKey(pem: string) {
   // fetch the part of the PEM string between header and footer
   const pemHeader = '-----BEGIN PUBLIC KEY-----';
   const pemFooter = '-----END PUBLIC KEY-----';
@@ -167,8 +167,11 @@ function createFingerprint(key: string) {
     .digest('SHA-256', str2ab(key))
     .then((digest) => emojiencode(digest));
 }
+interface Props {
+  onKeyPairChange: (keyPair: CryptoKeyPair) => void;
+}
 
-export function KeyManager() {
+export function KeyManager(props: Props) {
   const [exportedPrivateKey, setExportedPrivateKey] = useState('');
   const [exportedPublicKey, setExportedPublicKey] = useState('');
   const [saveEnabled, setSaveEnabled] = useState(false);
@@ -188,6 +191,7 @@ export function KeyManager() {
         setExportedPublicKey(pub);
       });
       localStorage.setItem('keyPair', publicKey + '\n' + privKey);
+      props.onKeyPairChange(keyPair);
     });
   }
   function generateKey() {
