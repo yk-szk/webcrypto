@@ -149,6 +149,12 @@ function download(text: string, name: string) {
   link.remove();
 }
 
+function toClipboard(text: string) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text);
+  }
+}
+
 function emojiencode(buf: ArrayBuffer) {
   const a = Array.from(new Uint8Array(buf));
   const offset = 0x1f3f7;
@@ -232,6 +238,13 @@ export function KeyManager() {
             onClick={() => download(exportedPublicKey, 'PublicKey.txt')}
           >
             Save Public Key
+          </Button>
+          <Button
+            disabled={!saveEnabled}
+            variant="outlined"
+            onClick={() => toClipboard(exportedPublicKey)}
+          >
+            Copy to Clipboard
           </Button>
         </Box>
         <Box width="30%">
