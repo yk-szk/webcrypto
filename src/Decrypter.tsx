@@ -29,7 +29,10 @@ export function Decrypter(props: Props) {
           );
           setDecryptedText(result);
         })
-        .catch((reason) => console.log(reason));
+        .catch((reason) => {
+          console.log(reason);
+          setDecryptedText('');
+        });
     }
   }
   return (
@@ -51,7 +54,6 @@ export function Decrypter(props: Props) {
           {inputText}
         </TextField>
       </Box>
-      <Typography></Typography>
       <Box>
         <Typography className="wrap">{decryptedText}</Typography>
       </Box>
