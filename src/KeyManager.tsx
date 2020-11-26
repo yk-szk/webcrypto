@@ -103,9 +103,13 @@ async function loadKeyPair(): Promise<CryptoKeyPair> {
         const reader = new FileReader();
         reader.onload = () => {
           const keyStr = reader.result as string;
-          parseKeyPair(keyStr).then((keyPair) => resolve(keyPair));
+          parseKeyPair(keyStr)
+            .then((keyPair) => resolve(keyPair))
+            .catch(() => reject());
         };
         reader.readAsText(fileList[0]);
+      } else {
+        reject();
       }
     }
     input.onchange = fileHandler;
@@ -207,9 +211,13 @@ export function KeyManager(props: Props) {
       });
   }
   function importKeyPair() {
-    loadKeyPair().then((keyPair) => {
-      setKeyPair(keyPair);
-    });
+    loadKeyPair()
+      .then((keyPair) => {
+        setKeyPair(keyPair);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   useEffect(() => {
