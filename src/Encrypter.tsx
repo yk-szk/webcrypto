@@ -61,7 +61,7 @@ export function Encrypter() {
     }
   }
   return (
-    <Box>
+    <Box className="vspacing">
       <Typography>Encrypt</Typography>
       <Box>
         <TextField
@@ -94,13 +94,16 @@ export function Encrypter() {
       <Box>
         <Typography className="wrap">{encryptedText}</Typography>
       </Box>
-      <Button
-        disabled={encryptedText === ''}
-        onClick={(event) => toClipboard(encryptedText)}
-        variant="outlined"
-      >
-        Copy
-      </Button>
+      <Box display="flex" justifyContent="flex-end">
+        <Button
+          title="Copy encrypted text"
+          disabled={encryptedText === ''}
+          onClick={(event) => toClipboard(encryptedText)}
+          variant="outlined"
+        >
+          Copy
+        </Button>
+      </Box>
     </Box>
   );
 }

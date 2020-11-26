@@ -19,6 +19,7 @@ code {
   word-wrap: break-word;      /* IE */
 }
 
-div {
-  padding: .5rem;
+div.vspacing > * {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
 }

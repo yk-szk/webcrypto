@@ -119,6 +119,10 @@ async function loadKeyPair(): Promise<CryptoKeyPair> {
 function pemWrap(contents: string, label: string) {
   return `-----BEGIN ${label}-----\n${contents}\n-----END ${label}-----`;
 }
+
+/**
+ * Export key in pem format
+ */
 async function exportKey(
   key: CryptoKey,
   format: 'pkcs8' | 'raw' | 'spki',
@@ -211,6 +215,7 @@ export function KeyManager(props: Props) {
   useEffect(() => {
     const localKeyPair = localStorage.getItem('keyPair');
     if (localKeyPair !== null) {
+      console.log('Load key pair from localStorage');
       parseKeyPair(localKeyPair).then((keyPair) => {
         setKeyPair(keyPair);
       });
@@ -218,19 +223,22 @@ export function KeyManager(props: Props) {
   }, []);
   return (
     <React.Fragment>
-      <Box display="flex" justifyContent="space-around">
+      <Box display="flex" justifyContent="space-between">
         <Box width="30%">
           <Typography component="h3" variant="h6">
             Public Key
           </Typography>
           <Typography title="Key finterprint">{publicFingerprint}</Typography>
-          <Button
-            disabled={!saveEnabled}
-            variant="outlined"
-            onClick={() => toClipboard(exportedPublicKey)}
-          >
-            Copy
-          </Button>
+          <Box display="flex" justifyContent="flex-end">
+            <Button
+              title="Copy private key"
+              disabled={!saveEnabled}
+              variant="outlined"
+              onClick={() => toClipboard(exportedPublicKey)}
+            >
+              Copy
+            </Button>
+          </Box>
         </Box>
         <Box width="30%">
           <Typography component="h3" variant="h6">

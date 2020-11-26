@@ -28,7 +28,7 @@ function App() {
       <CssBaseline />
       <div className="App">
         <header className="App-header"></header>
-        <Container maxWidth="md">
+        <Container maxWidth="md" className="vspacing">
           <Typography component="h1" variant="h2">
             Webcrypto
           </Typography>

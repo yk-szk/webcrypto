@@ -36,7 +36,7 @@ export function Decrypter(props: Props) {
     }
   }
   return (
-    <Box>
+    <Box className="vspacing">
       <Typography title={props.keyPair !== null ? 'Ready' : 'Key is not set'}>
         Decrypt
         {props.keyPair !== null ? ' 🟢' : ' 🟠'}
@@ -57,13 +57,16 @@ export function Decrypter(props: Props) {
       <Box>
         <Typography className="wrap">{decryptedText}</Typography>
       </Box>
-      <Button
-        disabled={decryptedText === ''}
-        onClick={(event) => toClipboard(decryptedText)}
-        variant="outlined"
-      >
-        Copy
-      </Button>
+      <Box display="flex" justifyContent="flex-end">
+        <Button
+          title="Copy decrypted text"
+          disabled={decryptedText === ''}
+          onClick={(event) => toClipboard(decryptedText)}
+          variant="outlined"
+        >
+          Copy
+        </Button>
+      </Box>
     </Box>
   );
 }
