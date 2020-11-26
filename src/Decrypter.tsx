@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Typography from '@material-ui/core/Typography';
-import { Box, TextField } from '@material-ui/core';
-import { importPublicKey, ab2str } from './KeyManager';
+import { Box, TextField, Button } from '@material-ui/core';
+import { toClipboard } from './Utils';
 
 interface Props {
   keyPair: CryptoKeyPair | null;
@@ -16,7 +16,11 @@ export function Decrypter(props: Props) {
     const text = event?.target.value;
     setInputText(text);
     const keyPair = props.keyPair;
-    if (text !== '' && keyPair !== null) {
+    if (text === '') {
+      setDecryptedText('');
+      return;
+    }
+    if (keyPair !== null) {
       window.crypto.subtle
         .decrypt('RSA-OAEP', keyPair.privateKey, Buffer.from(text, 'base64'))
         .then((decrypted) => {
@@ -24,14 +28,13 @@ export function Decrypter(props: Props) {
             new Uint8Array(decrypted),
           );
           setDecryptedText(result);
-        });
+        })
+        .catch((reason) => console.log(reason));
     }
   }
   return (
-    <Box p={2}>
-      <Typography
-        title={props.keyPair !== null ? 'Ready' : 'Not ready to decrypt'}
-      >
+    <Box>
+      <Typography title={props.keyPair !== null ? 'Ready' : 'Key is not set'}>
         Decrypt
         {props.keyPair !== null ? ' 🟢' : ' 🟠'}
       </Typography>
@@ -52,6 +55,13 @@ export function Decrypter(props: Props) {
       <Box>
         <Typography className="wrap">{decryptedText}</Typography>
       </Box>
+      <Button
+        disabled={decryptedText === ''}
+        onClick={(event) => toClipboard(decryptedText)}
+        variant="outlined"
+      >
+        Copy
+      </Button>
     </Box>
   );
 }

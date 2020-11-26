@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Typography from '@material-ui/core/Typography';
-import { Box, TextField } from '@material-ui/core';
+import { Box, TextField, Button } from '@material-ui/core';
 import { importPublicKey, ab2str } from './KeyManager';
+import { toClipboard } from './Utils';
 
 export function Encrypter() {
   const [pubKeyStr, setPubKeyStr] = useState('');
@@ -34,6 +35,10 @@ export function Encrypter() {
   ) {
     const text = event?.target.value;
     setInputText(text);
+    if (text === '') {
+      setEncryptedText('');
+      return;
+    }
     if (pubKeyStr !== '' && validPubKey) {
       importPublicKey(pubKeyStr).then((key) => {
         const enc = new TextEncoder();
@@ -56,7 +61,7 @@ export function Encrypter() {
     }
   }
   return (
-    <Box p={2}>
+    <Box>
       <Typography>Encrypt</Typography>
       <Box>
         <TextField
@@ -89,6 +94,13 @@ export function Encrypter() {
       <Box>
         <Typography className="wrap">{encryptedText}</Typography>
       </Box>
+      <Button
+        disabled={encryptedText === ''}
+        onClick={(event) => toClipboard(encryptedText)}
+        variant="outlined"
+      >
+        Copy
+      </Button>
     </Box>
   );
 }

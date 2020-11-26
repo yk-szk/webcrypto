@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Box, Button } from '@material-ui/core';
+import { download, toClipboard } from './Utils';
 
 const isCryptoKeyPair = (
   keyPair: CryptoKey | CryptoKeyPair,
@@ -37,7 +38,7 @@ function extractPemContent(pem: string, header: string, footer: string) {
   return pemContents;
 }
 
-function importPrivateKey(pem: string) {
+async function importPrivateKey(pem: string) {
   // fetch the part of the PEM string between header and footer
   const pemHeader = '-----BEGIN PRIVATE KEY-----';
   const pemFooter = '-----END PRIVATE KEY-----';
@@ -59,7 +60,7 @@ function importPrivateKey(pem: string) {
   );
 }
 
-export function importPublicKey(pem: string) {
+export async function importPublicKey(pem: string) {
   // fetch the part of the PEM string between header and footer
   const pemHeader = '-----BEGIN PUBLIC KEY-----';
   const pemFooter = '-----END PUBLIC KEY-----';
@@ -80,7 +81,7 @@ export function importPublicKey(pem: string) {
     ['encrypt'],
   );
 }
-function parseKeyPair(keyPairStr: string): Promise<CryptoKeyPair> {
+async function parseKeyPair(keyPairStr: string): Promise<CryptoKeyPair> {
   return Promise.all([
     importPrivateKey(keyPairStr),
     importPublicKey(keyPairStr),
@@ -90,7 +91,7 @@ function parseKeyPair(keyPairStr: string): Promise<CryptoKeyPair> {
 /**
  * Open file dialog -> load text file and parse -> return keyPair
  */
-function loadKeyPair(): Promise<CryptoKeyPair> {
+async function loadKeyPair(): Promise<CryptoKeyPair> {
   return new Promise((resolve, reject) => {
     const input = document.createElement('input');
     input.type = 'file';
@@ -135,24 +136,6 @@ async function exportPrivateKey(key: CryptoKey) {
 
 async function exportPublicKey(key: CryptoKey) {
   return exportKey(key, 'spki', 'PUBLIC KEY');
-}
-
-/**
- * Save text as a text file.
- */
-function download(text: string, name: string) {
-  const blob = new Blob([text], { type: 'text/plain' });
-  var link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = name;
-  link.click();
-  link.remove();
-}
-
-function toClipboard(text: string) {
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text);
-  }
 }
 
 function emojiencode(buf: ArrayBuffer) {
@@ -232,7 +215,7 @@ export function KeyManager(props: Props) {
         setKeyPair(keyPair);
       });
     }
-  });
+  }, []);
   return (
     <React.Fragment>
       <Box display="flex" justifyContent="space-around">
@@ -246,7 +229,7 @@ export function KeyManager(props: Props) {
             variant="outlined"
             onClick={() => toClipboard(exportedPublicKey)}
           >
-            Copy to Clipboard
+            Copy
           </Button>
         </Box>
         <Box width="30%">

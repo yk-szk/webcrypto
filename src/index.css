@@ -18,3 +18,7 @@ code {
   white-space: -o-pre-wrap;   /* Opera 7 */    
   word-wrap: break-word;      /* IE */
 }
+
+div {
+  padding: .5rem;
+}
