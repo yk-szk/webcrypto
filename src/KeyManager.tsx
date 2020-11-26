@@ -174,6 +174,8 @@ interface Props {
 export function KeyManager(props: Props) {
   const [exportedPrivateKey, setExportedPrivateKey] = useState('');
   const [exportedPublicKey, setExportedPublicKey] = useState('');
+  const [privateFingerprint, setPrivateFingerprint] = useState('');
+  const [publicFingerprint, setPublicFingerprint] = useState('');
   const [saveEnabled, setSaveEnabled] = useState(false);
 
   function setKeyPair(keyPair: CryptoKeyPair) {
@@ -187,10 +189,13 @@ export function KeyManager(props: Props) {
         createFingerprint(publicKey),
       ]).then((keys) => {
         const [priv, pub] = keys;
-        setExportedPrivateKey(priv);
-        setExportedPublicKey(pub);
+        setExportedPrivateKey(privKey);
+        setExportedPublicKey(publicKey);
+        setPrivateFingerprint(priv);
+        setPublicFingerprint(pub);
       });
       localStorage.setItem('keyPair', publicKey + '\n' + privKey);
+      setSaveEnabled(true);
       props.onKeyPairChange(keyPair);
     });
   }
@@ -235,14 +240,7 @@ export function KeyManager(props: Props) {
           <Typography component="h3" variant="h6">
             Public Key
           </Typography>
-          <Typography title="Key finterprint">{exportedPublicKey}</Typography>
-          <Button
-            disabled={!saveEnabled}
-            variant="outlined"
-            onClick={() => download(exportedPublicKey, 'PublicKey.txt')}
-          >
-            Save Public Key
-          </Button>
+          <Typography title="Key finterprint">{publicFingerprint}</Typography>
           <Button
             disabled={!saveEnabled}
             variant="outlined"
@@ -255,14 +253,7 @@ export function KeyManager(props: Props) {
           <Typography component="h3" variant="h6">
             Private Key
           </Typography>
-          <Typography title="Key finterprint">{exportedPrivateKey}</Typography>
-          <Button
-            disabled={!saveEnabled}
-            variant="outlined"
-            onClick={() => download(exportedPrivateKey, 'PrivateKey.txt')}
-          >
-            Save Private Key
-          </Button>
+          <Typography title="Key finterprint">{privateFingerprint}</Typography>
         </Box>
         <Box
           width="30%"
