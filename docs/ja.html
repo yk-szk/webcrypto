@@ -1,0 +1,102 @@
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+        body {
+            max-width: 960px;
+            margin: auto;
+        }
+
+        img {
+            max-width: 500px;
+        }
+
+        .container>* {
+            margin-top: 1em;
+            margin-bottom: 1em;
+        }
+
+        h1,
+        h2 {
+            margin: 0;
+            padding: 0;
+        }
+
+        div.figcap>* {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        @media only screen and (min-width: 900px) {
+            .caption {
+                margin-left: 2em;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Webcrypto 使い方</h1>
+        <div class="figcap">
+            <img src="./img/first.png">
+            <div class="caption">
+                <h2>初期画面</h2>
+                <p>初めてページを開くとこのような画面になる。</p>
+                <p>「GENERATE KEY PAIR」ボタンを押下し鍵ペアを作成する。</p>
+                <p>以前に作成した鍵ペアがある場合は「LOAD KEY PAIR」ボタンを押下し鍵ペアを読み込む。</p>
+            </div>
+        </div>
+        <div class="figcap">
+            <img src="./img/key_generated.png">
+            <div class="caption">
+                <h2>鍵ペア生成後</h2>
+                <p>鍵ペアの生成が完了するとそれぞれの鍵のfingerprintが絵文字で表示される。
+                    公開鍵(Public key)を相手に教える場合は「COPY」ボタンをクリックし公開鍵をクリップボードにコピーしたあと、
+                    コピーした公開鍵をメール等を用いて相手に知らせる。
+                </p>
+                <p>
+                    鍵ペアを保存する際は「SAVE KEY PAIR」ボタンを押下する。
+                    保存した鍵ペアを読み込む際は「LOAD KEY PAIR」ボタンを押下し保存したファイルを選択する。
+                </p>
+                <p>
+                    鍵ペアはブラウザ内に保存されるため次回以降ページを開いた際は、過去に生成された鍵が自動的に読み込まれる。
+                </p>
+            </div>
+        </div>
+        <div class="figcap">
+            <img src="./img/encryption.png">
+            <div class="caption">
+                <h2>暗号化</h2>
+                <p>暗号化は次の手順で行う。
+                <ol>
+                    <li>「Receivers Public Key」欄に受信者の公開鍵を入力</li>
+                    <li>「Text to encrypt」欄に暗号化する文字列を入力</li>
+                    <li>「Encrypted text」欄に暗号化された文字列が出力される</li>
+                </ol>
+                </p>
+            </div>
+        </div>
+        <div class="figcap">
+            <img src="./img/decryption.png">
+            <div class="caption">
+                <h2>復号</h2>
+                <p>
+                    復号(暗号の解除)は次の手順で行う。
+                <ol>
+                    <li>「Encrypted text」欄に暗号化された文字列を入力</li>
+                    <li>「Decrypted text」欄に復号された文字列が出力される</li>
+                </ol>
+                </p>
+                <p>
+                    復号を行う際は自分の秘密鍵(暗号化時に使用された公開鍵とペアとなっている鍵)が必要となる。
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
