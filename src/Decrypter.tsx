@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Box, TextField, Button } from '@material-ui/core';
+import { Card, CardContent, CardActions } from '@material-ui/core';
 import { toClipboard } from './Utils';
 
 interface Props {
@@ -44,41 +45,53 @@ export function Decrypter(props: Props) {
     }
   }
   return (
-    <Box className="vspacing">
-      <Typography
-        title={props.keyPair !== null ? 'Ready to decrypt' : 'Key is not set'}
-      >
-        Decrypt
-        {props.keyPair !== null ? ' 🟢' : ' 🟠'}
-      </Typography>
-      <Box>
-        <TextField
-          multiline={true}
-          spellCheck={false}
-          rows={3}
-          onChange={handleInputChange}
-          variant="outlined"
-          fullWidth={true}
-          placeholder="Encrypted Text"
-          error={decError}
-          helperText={decryptHelperText}
-        >
-          {inputText}
-        </TextField>
-      </Box>
-      <Box>
-        <Typography className="wrap">{decryptedText}</Typography>
-      </Box>
-      <Box display="flex" justifyContent="flex-end">
-        <Button
-          title="Copy decrypted text"
-          disabled={decryptedText === ''}
-          onClick={(event) => toClipboard(decryptedText)}
-          variant="outlined"
-        >
-          Copy
-        </Button>
-      </Box>
-    </Box>
+    <Card variant="outlined">
+      <CardContent>
+        <Box className="vspacing">
+          <Typography
+            variant="h5"
+            component="h2"
+            title={
+              props.keyPair !== null
+                ? 'Ready to decrypt'
+                : 'Not ready to decrypt: Key is not set'
+            }
+          >
+            🔓Decrypt
+            {props.keyPair !== null ? ' 🟢' : ' 🟠'}
+          </Typography>
+          <Box>
+            <TextField
+              multiline={true}
+              spellCheck={false}
+              rows={3}
+              onChange={handleInputChange}
+              variant="outlined"
+              fullWidth={true}
+              placeholder="Encrypted Text"
+              error={decError}
+              helperText={decryptHelperText}
+            >
+              {inputText}
+            </TextField>
+          </Box>
+          <Box>
+            <Typography className="wrap">{decryptedText}</Typography>
+          </Box>
+          <Box display="flex" justifyContent="flex-end">
+            <CardActions>
+              <Button
+                title="Copy decrypted text"
+                disabled={decryptedText === ''}
+                onClick={(event) => toClipboard(decryptedText)}
+                variant="outlined"
+              >
+                Copy
+              </Button>
+            </CardActions>
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
   );
 }

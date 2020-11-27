@@ -23,6 +23,13 @@ div.vspacing > * {
     margin-top: .5rem;
     margin-bottom: .5rem;
 }
+div.vspacing > *:first-child {
+  margin-top: 0;
+}
+div.vspacing > *:last-child {
+  margin-bottom: 0;
+}
+
 .ellipsis {
   overflow: hidden;
   white-space: nowrap;

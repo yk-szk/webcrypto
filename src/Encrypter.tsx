@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Box, TextField, Button } from '@material-ui/core';
+import { Card, CardContent, CardActions } from '@material-ui/core';
 import { importPublicKey, ab2str } from './KeyManager';
 import { toClipboard } from './Utils';
 
@@ -61,49 +62,57 @@ export function Encrypter() {
     }
   }
   return (
-    <Box className="vspacing">
-      <Typography>Encrypt</Typography>
-      <Box>
-        <TextField
-          error={pubError}
-          spellCheck={false}
-          multiline={true}
-          rows={4}
-          onChange={handlePubKeyChange}
-          variant="outlined"
-          fullWidth={true}
-          placeholder="Receivers Public Key"
-          helperText={pubKeyHelperText}
-        >
-          {pubKeyStr}
-        </TextField>
-      </Box>
-      <Box>
-        <TextField
-          multiline={true}
-          spellCheck={false}
-          rows={3}
-          variant="outlined"
-          onChange={handleInputChange}
-          fullWidth={true}
-          placeholder="Text to encrypt"
-        >
-          {inputText}
-        </TextField>
-      </Box>
-      <Box>
-        <Typography className="wrap">{encryptedText}</Typography>
-      </Box>
-      <Box display="flex" justifyContent="flex-end">
-        <Button
-          title="Copy encrypted text"
-          disabled={encryptedText === ''}
-          onClick={(event) => toClipboard(encryptedText)}
-          variant="outlined"
-        >
-          Copy
-        </Button>
-      </Box>
-    </Box>
+    <Card variant="outlined">
+      <CardContent>
+        <Box className="vspacing">
+          <Typography variant="h5" component="h2">
+            🔒Encrypt
+          </Typography>
+          <Box>
+            <TextField
+              error={pubError}
+              spellCheck={false}
+              multiline={true}
+              rows={4}
+              onChange={handlePubKeyChange}
+              variant="outlined"
+              fullWidth={true}
+              placeholder="Receivers Public Key"
+              helperText={pubKeyHelperText}
+            >
+              {pubKeyStr}
+            </TextField>
+          </Box>
+          <Box>
+            <TextField
+              multiline={true}
+              spellCheck={false}
+              rows={3}
+              variant="outlined"
+              onChange={handleInputChange}
+              fullWidth={true}
+              placeholder="Text to encrypt"
+            >
+              {inputText}
+            </TextField>
+          </Box>
+          <Box>
+            <Typography className="wrap">{encryptedText}</Typography>
+          </Box>
+          <Box display="flex" justifyContent="flex-end">
+            <CardActions>
+              <Button
+                title="Copy encrypted text"
+                disabled={encryptedText === ''}
+                onClick={(event) => toClipboard(encryptedText)}
+                variant="outlined"
+              >
+                Copy
+              </Button>
+            </CardActions>
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
   );
 }

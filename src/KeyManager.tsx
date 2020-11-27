@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Box, Button } from '@material-ui/core';
+import { Card, CardContent, CardActions } from '@material-ui/core';
 import { download, toClipboard } from './Utils';
 
 const isCryptoKeyPair = (
@@ -165,8 +166,8 @@ interface Props {
 export function KeyManager(props: Props) {
   const [exportedPrivateKey, setExportedPrivateKey] = useState('');
   const [exportedPublicKey, setExportedPublicKey] = useState('');
-  const [privateFingerprint, setPrivateFingerprint] = useState('');
-  const [publicFingerprint, setPublicFingerprint] = useState('');
+  const [privateFingerprint, setPrivateFingerprint] = useState('No Key');
+  const [publicFingerprint, setPublicFingerprint] = useState('No Key');
   const [saveEnabled, setSaveEnabled] = useState(false);
 
   function setKeyPair(keyPair: CryptoKeyPair) {
@@ -224,8 +225,8 @@ export function KeyManager(props: Props) {
     const localKeyPair = localStorage.getItem('keyPair');
     if (
       localKeyPair !== null &&
-      privateFingerprint === '' &&
-      publicFingerprint === ''
+      exportedPrivateKey === '' &&
+      exportedPublicKey === ''
     ) {
       console.log('Load key pair from localStorage');
       parseKeyPair(localKeyPair).then((keyPair) => {
@@ -235,65 +236,108 @@ export function KeyManager(props: Props) {
   })();
 
   return (
-    <React.Fragment>
-      <Typography>Your keys</Typography>
-      <Box display="flex" justifyContent="space-between">
-        <Box width="30%">
-          <Typography>Public</Typography>
-          <Typography
-            className="ellipsis"
-            onClick={(event: any) => event.target.classList.toggle('ellipsis')}
-            title="Key finterprint. Click to open/close"
-          >
-            {publicFingerprint}
+    <Card variant="outlined">
+      <CardContent>
+        <Box className="vspacing">
+          <Typography variant="h5" component="h2">
+            🗝️Your Key Pair
           </Typography>
-          <Box display="flex" justifyContent="flex-end">
-            <Button
-              title="Copy private key"
-              disabled={!saveEnabled}
-              variant="outlined"
-              onClick={() => toClipboard(exportedPublicKey)}
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="stretch"
+          >
+            <Box width="30%">
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="body1" component="h3">
+                    Public
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color={saveEnabled ? 'textPrimary' : 'textSecondary'}
+                    component="p"
+                    className="ellipsis"
+                    onClick={(event: any) =>
+                      event.target.classList.toggle('ellipsis')
+                    }
+                    title={
+                      saveEnabled
+                        ? 'Key finterprint. Click to open/close'
+                        : 'No key is set'
+                    }
+                  >
+                    {publicFingerprint}
+                  </Typography>
+                </CardContent>
+                <Box display="flex" justifyContent="flex-end">
+                  <CardActions>
+                    <Button
+                      title="Copy private key"
+                      disabled={!saveEnabled}
+                      onClick={() => toClipboard(exportedPublicKey)}
+                      size="small"
+                      variant="outlined"
+                    >
+                      Copy
+                    </Button>
+                  </CardActions>
+                </Box>
+              </Card>
+            </Box>
+            <Box width="30%">
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="body1" component="h3">
+                    Private
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color={saveEnabled ? 'textPrimary' : 'textSecondary'}
+                    component="p"
+                    className="ellipsis"
+                    onClick={(event: any) =>
+                      event.target.classList.toggle('ellipsis')
+                    }
+                    title={
+                      saveEnabled
+                        ? 'Key finterprint. Click to open/close'
+                        : 'No key is set'
+                    }
+                  >
+                    {privateFingerprint}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
+            <Box
+              width="30%"
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-around"
             >
-              Copy
-            </Button>
+              <Button onClick={generateKey} variant="outlined">
+                Generate Key Pair
+              </Button>
+              <Button onClick={importKeyPair} variant="outlined">
+                Load Key Pair
+              </Button>
+              <Button
+                disabled={!saveEnabled}
+                variant="outlined"
+                onClick={() =>
+                  download(
+                    exportedPublicKey + '\n' + exportedPrivateKey,
+                    'KeyPair.txt',
+                  )
+                }
+              >
+                Save Key Pair
+              </Button>
+            </Box>
           </Box>
         </Box>
-        <Box width="30%">
-          <Typography>Private</Typography>
-          <Typography
-            className="ellipsis"
-            onClick={(event: any) => event.target.classList.toggle('ellipsis')}
-            title="Key finterprint. Click to open/close"
-          >
-            {privateFingerprint}
-          </Typography>
-        </Box>
-        <Box
-          width="30%"
-          display="flex"
-          flexDirection="column"
-          justifyContent="space-around"
-        >
-          <Button onClick={generateKey} variant="outlined">
-            Generate Key Pair
-          </Button>
-          <Button onClick={importKeyPair} variant="outlined">
-            Load Key Pair
-          </Button>
-          <Button
-            disabled={!saveEnabled}
-            variant="outlined"
-            onClick={() =>
-              download(
-                exportedPublicKey + '\n' + exportedPrivateKey,
-                'KeyPair.txt',
-              )
-            }
-          >
-            Save Key Pair
-          </Button>
-        </Box>
-      </Box>
-    </React.Fragment>
+      </CardContent>
+    </Card>
   );
 }
