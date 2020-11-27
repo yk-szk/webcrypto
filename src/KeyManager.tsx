@@ -149,8 +149,22 @@ async function exportPublicKey(key: CryptoKey) {
 
 function emojiencode(buf: ArrayBuffer) {
   const a = Array.from(new Uint8Array(buf));
-  const offset = 0x1f3f7;
-  const codePoints = a.map((value) => value + offset);
+  const codePoints = a.map((value) => {
+    if (value <= 80) {
+      //🍀 to 🎏
+      return value + 0x1f340;
+    }
+    if (value <= 144) {
+      // 🐀 to 🐿
+      return value + 0x1f400 - 81;
+    }
+    if (value <= 176) {
+      // 👤 to 💃
+      return value + 0x1f464 - 145;
+    }
+    // 🗻 to 🙊
+    return value + 0x1f5fb - 177;
+  });
   return String.fromCodePoint.apply(null, codePoints);
 }
 
