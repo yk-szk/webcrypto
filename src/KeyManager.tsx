@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Typography from '@material-ui/core/Typography';
-import { Box, Button } from '@material-ui/core';
+import { Box, Button, TextField } from '@material-ui/core';
 import { Card, CardContent, CardActions } from '@material-ui/core';
 import { download, toClipboard } from './Utils';
 
@@ -166,8 +166,8 @@ interface Props {
 export function KeyManager(props: Props) {
   const [exportedPrivateKey, setExportedPrivateKey] = useState('');
   const [exportedPublicKey, setExportedPublicKey] = useState('');
-  const [privateFingerprint, setPrivateFingerprint] = useState('No Key');
-  const [publicFingerprint, setPublicFingerprint] = useState('No Key');
+  const [privateFingerprint, setPrivateFingerprint] = useState('');
+  const [publicFingerprint, setPublicFingerprint] = useState('');
   const [saveEnabled, setSaveEnabled] = useState(false);
 
   function setKeyPair(keyPair: CryptoKeyPair) {
@@ -250,30 +250,23 @@ export function KeyManager(props: Props) {
             <Box width="30%">
               <Card variant="outlined">
                 <CardContent>
-                  <Typography variant="body1" component="h3">
-                    Public
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color={saveEnabled ? 'textPrimary' : 'textSecondary'}
-                    component="p"
-                    className="ellipsis"
-                    onClick={(event: any) =>
-                      event.target.classList.toggle('ellipsis')
-                    }
-                    title={
-                      saveEnabled
-                        ? 'Key finterprint. Click to open/close'
-                        : 'No key is set'
-                    }
-                  >
-                    {publicFingerprint}
-                  </Typography>
+                  <TextField
+                    multiline={true}
+                    spellCheck={false}
+                    rows={2}
+                    variant="filled"
+                    fullWidth={true}
+                    label="Public Key's Fingerprint"
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    value={publicFingerprint || ''}
+                  />
                 </CardContent>
                 <Box display="flex" justifyContent="flex-end">
                   <CardActions>
                     <Button
-                      title="Copy private key"
+                      title="Copy public key"
                       disabled={!saveEnabled}
                       onClick={() => toClipboard(exportedPublicKey)}
                       size="small"
@@ -288,25 +281,18 @@ export function KeyManager(props: Props) {
             <Box width="30%">
               <Card variant="outlined">
                 <CardContent>
-                  <Typography variant="body1" component="h3">
-                    Private
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color={saveEnabled ? 'textPrimary' : 'textSecondary'}
-                    component="p"
-                    className="ellipsis"
-                    onClick={(event: any) =>
-                      event.target.classList.toggle('ellipsis')
-                    }
-                    title={
-                      saveEnabled
-                        ? 'Key finterprint. Click to open/close'
-                        : 'No key is set'
-                    }
-                  >
-                    {privateFingerprint}
-                  </Typography>
+                  <TextField
+                    multiline={true}
+                    spellCheck={false}
+                    rows={2}
+                    variant="filled"
+                    fullWidth={true}
+                    label="Private Key's Fingerprint"
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    value={privateFingerprint || ''}
+                  />
                 </CardContent>
               </Card>
             </Box>

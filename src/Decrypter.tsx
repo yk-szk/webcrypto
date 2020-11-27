@@ -68,7 +68,7 @@ export function Decrypter(props: Props) {
               onChange={handleInputChange}
               variant="outlined"
               fullWidth={true}
-              placeholder="Encrypted Text"
+              label="Encrypted Text"
               error={decError}
               helperText={decryptHelperText}
             >
@@ -76,7 +76,19 @@ export function Decrypter(props: Props) {
             </TextField>
           </Box>
           <Box>
-            <Typography className="wrap">{decryptedText}</Typography>
+            <TextField
+              disabled
+              multiline={true}
+              spellCheck={false}
+              rows={2}
+              variant="filled"
+              fullWidth={true}
+              label="Decrypted text"
+              InputProps={{
+                readOnly: true,
+              }}
+              value={decryptedText || ''}
+            ></TextField>
           </Box>
           <Box display="flex" justifyContent="flex-end">
             <CardActions>

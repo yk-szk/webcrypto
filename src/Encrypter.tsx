@@ -9,7 +9,7 @@ export function Encrypter() {
   const [pubKeyStr, setPubKeyStr] = useState('');
   const [pubKeyHelperText, setPubKeyHelperText] = useState('');
   const [pubError, setPubError] = useState(false);
-  const [inputText, setInputText] = useState('');
+  // const [inputText, setInputText] = useState('');
   const [encryptedText, setEncryptedText] = useState('');
   useEffect(() => {
     setPubKeyHelperText(pubError ? 'Invalid public key' : '');
@@ -35,7 +35,7 @@ export function Encrypter() {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
     const text = event?.target.value;
-    setInputText(text);
+    // setInputText(text);
     if (text === '') {
       setEncryptedText('');
       return;
@@ -77,27 +77,35 @@ export function Encrypter() {
               onChange={handlePubKeyChange}
               variant="outlined"
               fullWidth={true}
-              placeholder="Receivers Public Key"
+              label="Receivers Public Key"
               helperText={pubKeyHelperText}
-            >
-              {pubKeyStr}
-            </TextField>
+            />
           </Box>
           <Box>
             <TextField
               multiline={true}
               spellCheck={false}
-              rows={3}
+              rows={2}
               variant="outlined"
               onChange={handleInputChange}
               fullWidth={true}
-              placeholder="Text to encrypt"
-            >
-              {inputText}
-            </TextField>
+              label="Text to encrypt"
+            />
           </Box>
           <Box>
-            <Typography className="wrap">{encryptedText}</Typography>
+            <TextField
+              disabled
+              multiline={true}
+              spellCheck={false}
+              rows={2}
+              variant="filled"
+              fullWidth={true}
+              label="Encrypted text"
+              InputProps={{
+                readOnly: true,
+              }}
+              value={encryptedText || ''}
+            ></TextField>
           </Box>
           <Box display="flex" justifyContent="flex-end">
             <CardActions>
