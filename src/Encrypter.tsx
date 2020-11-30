@@ -8,6 +8,7 @@ import { toClipboard } from './Utils';
 export function Encrypter() {
   const [pubKeyStr, setPubKeyStr] = useState('');
   const [pubKeyHelperText, setPubKeyHelperText] = useState('');
+  const [inputHelperText, setInputHelperText] = useState('');
   const [pubError, setPubError] = useState(false);
   // const [inputText, setInputText] = useState('');
   const [encryptedText, setEncryptedText] = useState('');
@@ -35,11 +36,16 @@ export function Encrypter() {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
     const text = event?.target.value;
-    // setInputText(text);
+    if (text.length > 190) {
+      setInputHelperText('Input text too long');
+      setEncryptedText('');
+      return;
+    }
     if (text === '') {
       setEncryptedText('');
       return;
     }
+    setInputHelperText('');
     if (pubKeyStr !== '' && !pubError) {
       importPublicKey(pubKeyStr).then((key) => {
         const enc = new TextEncoder();
@@ -83,6 +89,7 @@ export function Encrypter() {
           </Box>
           <Box>
             <TextField
+              error={inputHelperText !== ''}
               multiline={true}
               spellCheck={false}
               rows={2}
@@ -90,6 +97,7 @@ export function Encrypter() {
               onChange={handleInputChange}
               fullWidth={true}
               label="Text to encrypt"
+              helperText={inputHelperText}
             />
           </Box>
           <Box>
