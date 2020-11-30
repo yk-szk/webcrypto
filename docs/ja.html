@@ -2,7 +2,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Webcryptoの使い方</title>
+    <title>Webcryptoマニュアル</title>
     <style>
         body {
             max-width: 960px;
@@ -40,20 +40,31 @@
 
 <body>
     <div class="container">
-        <h1>Webcrypto 使い方</h1>
+        <h1>Webcryptoマニュアル</h1>
+        <h2>概要</h2>
+        <p>
+            <a href=/webcrypto>Webcrypto</a>は公開鍵暗号を用いて秘匿情報を送信するためのツールです。
+        </p>
+        <p>
+            秘匿情報の送信者は受信者の公開鍵(public key)を用いて秘匿情報を暗号化し、受信者は自分の秘密鍵(private key)を用いて秘匿情報を復号します。
+        </p>
+        <p>
+            公開鍵は誰に見られても問題がない鍵です。秘密鍵は誰にも知られてはいけない鍵です。
+        </p>
+        <h2>使い方</h2>
         <div class="figcap">
-            <img src="./img/first.png">
+            <img src="img/first.png">
             <div class="caption">
-                <h2>初期画面</h2>
+                <h3>初期画面</h3>
                 <p>初めてページを開くとこのような画面になる。</p>
                 <p>「GENERATE KEY PAIR」ボタンを押下し鍵ペアを作成する。</p>
                 <p>以前に作成した鍵ペアがある場合は「LOAD KEY PAIR」ボタンを押下し鍵ペアを読み込む。</p>
             </div>
         </div>
         <div class="figcap">
-            <img src="./img/key_generated.png">
+            <img src="img/key_generated.png">
             <div class="caption">
-                <h2>鍵ペア生成後</h2>
+                <h3>鍵ペア生成後</h3>
                 <p>鍵ペアの生成が完了するとそれぞれの鍵のfingerprintが絵文字で表示される。
                     公開鍵(Public key)を相手に教える場合は「COPY」ボタンをクリックし公開鍵をクリップボードにコピーしたあと、
                     コピーした公開鍵をメール等を用いて相手に知らせる。
@@ -68,9 +79,9 @@
             </div>
         </div>
         <div class="figcap">
-            <img src="./img/encryption.png">
+            <img src="img/encryption.png">
             <div class="caption">
-                <h2>暗号化</h2>
+                <h3>暗号化</h3>
                 <p>暗号化は次の手順で行う。
                 <ol>
                     <li>「Receivers Public Key」欄に受信者の公開鍵を入力</li>
@@ -81,9 +92,9 @@
             </div>
         </div>
         <div class="figcap">
-            <img src="./img/decryption.png">
+            <img src="img/decryption.png">
             <div class="caption">
-                <h2>復号</h2>
+                <h3>復号</h3>
                 <p>
                     復号(暗号の解除)は次の手順で行う。
                 <ol>
