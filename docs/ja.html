@@ -2,15 +2,13 @@
 
 <head>
     <meta charset="utf-8">
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="apple-touch-icon" href="../../logo192.png" />
     <title>Webcryptoマニュアル</title>
     <style>
         body {
             max-width: 960px;
             margin: auto;
-        }
-
-        img {
-            max-width: 500px;
         }
 
         .container>* {
@@ -24,16 +22,55 @@
             padding: 0;
         }
 
+        img {
+            width: 45%;
+        }
+
+        .caption {
+            width: 45%;
+        }
+
+        .figcap {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+        }
+
         div.figcap>* {
-            display: inline-block;
             vertical-align: top;
         }
 
-        @media only screen and (min-width: 900px) {
-            .caption {
-                margin-left: 2em;
-                max-width: 400px;
+        @media only screen and (max-width: 920px) {
+
+            .figcap {
+                flex-direction: column-reverse;
             }
+
+            img {
+                width: 95%;
+                margin: 0 auto;
+            }
+
+            .caption {
+                width: 95%;
+                margin: 0 auto;
+            }
+
+            body {
+                margin-left: 1em;
+                margin-right: 1em;
+            }
+
+        }
+
+        /* number h3s */
+        h2 {
+            counter-reset: h3counter;
+        }
+
+        h3:before {
+            content: counter(h3counter) ".\0000a0\0000a0";
+            counter-increment: h3counter;
         }
     </style>
 </head>
@@ -41,16 +78,19 @@
 <body>
     <div class="container">
         <h1>Webcryptoマニュアル</h1>
-        <h2>概要</h2>
-        <p>
-            <a href=/webcrypto>Webcrypto</a>は公開鍵暗号を用いて秘匿情報を送信するためのツールです。
-        </p>
-        <p>
-            秘匿情報の送信者は受信者の公開鍵(public key)を用いて秘匿情報を暗号化し、受信者は自分の秘密鍵(private key)を用いて秘匿情報を復号します。
-        </p>
-        <p>
-            公開鍵は誰に見られても問題がない鍵です。秘密鍵は誰にも知られてはいけない鍵です。
-        </p>
+        <div>
+            <h2>概要</h2>
+            <p>
+                <a href=/webcrypto>Webcrypto</a>は公開鍵暗号を用いて秘匿情報を送信するためのツールです。
+            </p>
+            <p>
+                秘匿情報の送信者は受信者の公開鍵(public key)を用いて秘匿情報を暗号化し、受信者は自分の秘密鍵(private key)を用いて秘匿情報を復号します。
+            </p>
+            <small>
+                ＊公開鍵は誰に見られても問題がない鍵で秘密鍵は誰にも知られてはいけない鍵です。
+            </small>
+
+        </div>
         <h2>使い方</h2>
         <div class="figcap">
             <img src="img/first.png">
